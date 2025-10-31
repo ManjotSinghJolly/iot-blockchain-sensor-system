@@ -100,14 +100,21 @@ Sensor readings are stored **locally AND on Ethereum blockchain**, ensuring trus
 
 ```
 iot-blockchain-sensor-system/
-├── server.py                 # Flask API + Dashboard backend
-├── blockchain_client.py      # Ethereum Web3 client
+├── server.py # Flask API + Dashboard backend
+├── blockchain_client.py # Ethereum Web3 client
+├── firmware/ # ESP32 firmware
+│ └── esp32_dht_client.ino # Arduino code for ESP32
 ├── templates/
-│   └── dashboard.html        # Frontend UI
+│ └── dashboard.html # Frontend UI
 ├── static/
-│   └── style.css             # CSS styles
-├── .gitignore                # Prevents secret leakage
-└── README.md
+│ └── style.css # CSS styles for dashboard
+├── smart_contract/ # Solidity contract + deployment notes
+│ └── IoTDataLedger.sol
+├── screenshots/ # Wiring, dashboard, and output screenshots
+├── .gitignore # Prevents secret leakage
+├── .env (not uploaded) # Environment variables (local only)
+├── LICENSE # MIT License
+└── README.md # Documentation
 ```
 
 ---
@@ -119,6 +126,19 @@ iot-blockchain-sensor-system/
 - Arduino IDE
 - MetaMask wallet
 - Infura account (Sepolia RPC)
+
+---
+
+### Arduino Libraries Required
+
+Install the following libraries in Arduino IDE using **Library Manager**:
+
+- `DHT sensor library` by Adafruit
+- `Adafruit Unified Sensor`
+- `WiFi` (built-in for ESP32 boards)
+- `HTTPClient` (built-in for ESP32 boards)
+
+> In Arduino IDE: **Tools → Manage Libraries → Search & Install**
 
 ---
 
@@ -205,6 +225,6 @@ If you found this useful, consider ⭐ starring this repo!
 
 ---
 
-## 🪪 License
+## License
 
-MIT License _(to be added)_
+This project is licensed under the MIT License — see `LICENSE` file.
