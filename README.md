@@ -23,23 +23,7 @@ Sensor readings are stored **locally AND on Ethereum blockchain**, ensuring trus
 
 ## System Architecture
 
-```
- ┌────────┐       Wi-Fi        ┌────────────┐      SHA-256       ┌──────────────┐
- | DHT22  | ─────────────────▶ |   ESP32    | ────────────────▶ | Flask Server |
- └────────┘                    └────────────┘                    └─────┬────────┘
-                                                                      │
-                                                                      ▼
-                                                              ┌──────────────┐
-                                                              |  SQLite DB   |
-                                                              └──────────────┘
-                                                                      │
-                                                                      ▼
-                                                         ┌────────────────────────┐
-                                                         | Ethereum (Sepolia)     |
-                                                         | Smart Contract stores  |
-                                                         | hash + timestamp       |
-                                                         └────────────────────────┘
-```
+![System Architecture](screenshots/system_architecture.png)
 
 ---
 
