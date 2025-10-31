@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>IoT Blockchain Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css" />
+
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="bg-dark text-light">
+    <div class="container py-4">
+      <h1 class="text-center mb-4">IoT + Blockchain Sensor Dashboard</h1>
+
+      <!-- Top Cards -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="card bg-secondary text-light text-center p-3">
+            <h3>🌡 Temperature</h3>
+            <h2 id="tempValue">-- °C</h2>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card bg-secondary text-light text-center p-3">
+            <h3>💧 Humidity</h3>
+            <h2 id="humidityValue">-- %</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <canvas id="tempChart"></canvas>
+        </div>
+        <div class="col-md-6">
+          <canvas id="humidityChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Blockchain Table -->
+      <h3 class="mt-4">⛓ Blockchain Records (Recent)</h3>
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>Hash</th>
+            <th>Etherscan</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody id="txTableBody"></tbody>
+      </table>
+    </div>
+
+    <script>
+      async function fetchData() {
+        const res = await fetch("/api/dashboard_data");
+        const data = await res.json();
+
+        document.getElementById("tempValue").innerText =
+          data.latest.temp + " °C";
+        document.getElementById("humidityValue").innerText =
+          data.latest.humidity + " %";
+
+        // Update table
+        let tableHTML = "";
+        data.records.forEach((r) => {
+          tableHTML += `
+          <tr>
+            <td>${r.hash.slice(0, 10)}...</td>
+            <td><a href="https://sepolia.etherscan.io/tx/${
+              r.tx
+            }" target="_blank" class="btn btn-primary btn-sm">View</a></td>
+            <td>${r.time}</td>
+          </tr>`;
+        });
+        document.getElementById("txTableBody").innerHTML = tableHTML;
+
+        // Update charts
+        updateCharts(
+          data.chart.timestamps,
+          data.chart.temperature,
+          data.chart.humidity
+        );
+      }
+
+      let tempChart, humidityChart;
+      function updateCharts(labels, temps, hums) {
+        if (!tempChart) {
+          tempChart = new Chart(document.getElementById("tempChart"), {
+            type: "line",
+            data: {
+              labels,
+              datasets: [
+                { label: "Temp (°C)", data: temps, borderColor: "red" },
+              ],
+            },
+          });
+        } else {
+          tempChart.data.labels = labels;
+          tempChart.data.datasets[0].data = temps;
+          tempChart.update();
+        }
+
+        if (!humidityChart) {
+          humidityChart = new Chart(document.getElementById("humidityChart"), {
+            type: "line",
+            data: {
+              labels,
+              datasets: [
+                { label: "Humidity (%)", data: hums, borderColor: "cyan" },
+              ],
+            },
+          });
+        } else {
+          humidityChart.data.labels = labels;
+          humidityChart.data.datasets[0].data = hums;
+          humidityChart.update();
+        }
+      }
+
+      setInterval(fetchData, 5000);
+      fetchData();
+    </script>
+  </body>
+</html>
