@@ -43,9 +43,27 @@ Sensor readings are stored **locally AND on Ethereum blockchain**, ensuring trus
 
 ---
 
-## Dashboard Preview
+## Screenshots
 
-> _(Screenshots coming soon — add in /screenshots folder)_
+### Live IoT Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### ESP32 + DHT22 Hardware Setup
+
+![ESP32 Setup](screenshots/esp32_setup.jpeg)
+
+### Flask Server Logs (showing blockchain TX hash)
+
+![Server Logs](screenshots/server_console.png)
+
+### Ethereum Transaction Verified on Etherscan
+
+![Etherscan](screenshots/etherscan.png)
+
+### ESP32 Serial Monitor Output
+
+![Serial Monitor](screenshots/serial_monitor.png)
 
 ---
 
