@@ -43,6 +43,20 @@ Sensor readings are stored **locally AND on Ethereum blockchain**, ensuring trus
 
 ---
 
+### Hardware Wiring (ESP32 → DHT22)
+
+| DHT22 Pin | ESP32 Pin |
+| --------- | --------- |
+| VCC (+)   | 3.3V      |
+| GND (-)   | GND       |
+| DATA      | GPIO 26   |
+
+> Note: DHT22 Data pin connected to GPIO26 (D26)
+
+![Wiring Diagram](screenshots/wiring_diagram.png)
+
+---
+
 ## Screenshots
 
 ### Live IoT Dashboard
